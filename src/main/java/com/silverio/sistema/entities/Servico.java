@@ -1,6 +1,6 @@
 package com.silverio.sistema.entities;
 
-public class Ordem {
+public class Servico {
 	private Long 	id;
 	private String causa;
 	private String solucao;
