@@ -13,7 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.criteria.Order;
+
 
 @Entity // //This class is an entity mapped to a database table;
 @Table(name = "tb_cliente")//  Name of the table in the database;
@@ -31,7 +31,7 @@ public class Cliente  implements Serializable {
 	
     //@JsonIgnore
 	//@OneToMany(mappedBy = "cliente")
-	// private List<Order> orders = new ArrayList<>();
+	// private List<Equipamneto> equipamentos = new ArrayList<>();
 	 
     public Cliente() {	 // Default constructor			
 	}
