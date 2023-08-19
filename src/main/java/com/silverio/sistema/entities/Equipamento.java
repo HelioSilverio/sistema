@@ -1,12 +1,20 @@
 package com.silverio.sistema.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-
+import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -16,72 +24,95 @@ import jakarta.persistence.Table;
 public class Equipamento implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
 	@Id //Indicates that the following field is the primary key of the entity;
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Specifies that the  primary key generation is auto;
-	private Long   c_codiequip;// The primary key of the entity;
-	private String c_modelquip;
-	private String c_seriequip;
-	private String c_marcequip;
+	@Column(name = "n_numequip")
+	private Long   id;// The primary key of the entity;
 	
+	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+	@Column(name = "c_modelquip")
+	private String modelo;
+	
+	@Column(name = "c_seriequip", unique = true) // Adicione a anotação unique = true aqui
+	private String serie;
+	
+	 @Column(name = "c_marcequip")
+	private String marca;
+	 
+	 @Column(name = "img_url")
+	private  String imgUrl;
+	
+	 //instancia muitos para um lado equipamento;
+	 //um equipamento pode ter apenas um cliente associado
+	 @JsonIgnore
+	@ManyToOne
+    @JoinColumn(name = "cliente_id")
+	 private Cliente cliente;
+	  
 	
 	public Equipamento() {
 		super();
 	}
 
 
-	public Equipamento(Long c_codiequip, String c_modelquip, String c_seriequip, String c_marcequip) {
+	public Equipamento(Long id, String modelo, String serie, String marca, Cliente cliente) {
 		super();
-		this.c_codiequip = c_codiequip;
-		this.c_modelquip = c_modelquip;
-		this.c_seriequip = c_seriequip;
-		this.c_marcequip = c_marcequip;
-	}
-
-
-	public Long getC_codiequip() {
-		return c_codiequip;
+		this.id = id;
+		this.modelo = modelo;
+		this.serie = serie;
+		this.marca = marca;
+		//this.imgUrl = imgUrl;
+		this.cliente = cliente;
 	}
 
 	// Getters and Setters
-	public void setC_codiequip(Long c_codiequip) {
-		this.c_codiequip = c_codiequip;
+		
+	public Long getId() {
+		return id;
 	}
 
-
-	public String getC_modelquip() {
-		return c_modelquip;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-
-	public void setC_modelquip(String c_modelquip) {
-		this.c_modelquip = c_modelquip;
+	public String getModelo() {
+		return modelo;
 	}
 
-
-	public String getC_seriequip() {
-		return c_seriequip;
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
 	}
 
-
-	public void setC_seriequip(String c_seriequip) {
-		this.c_seriequip = c_seriequip;
+	public String getSerie() {
+		return serie;
 	}
 
-
-	public String getC_marcequip() {
-		return c_marcequip;
+	public void setSerie(String serie) {
+		this.serie = serie;
 	}
 
-
-	public void setC_marcequip(String c_marcequip) {
-		this.c_marcequip = c_marcequip;
+	public String getMarca() {
+		return marca;
 	}
 
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
 
-	@Override// Overriding hashCode and equals methods for proper object comparison
+	
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	
+
+	@Override
 	public int hashCode() {
-		return Objects.hash(c_codiequip);
+		return Objects.hash(id);
 	}
+
+
 
 
 	@Override
@@ -93,12 +124,9 @@ public class Equipamento implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Equipamento other = (Equipamento) obj;
-		return Objects.equals(c_codiequip, other.c_codiequip);
+		return Objects.equals(id, other.id);
 	}
 
-
-	
-		
-	
-
 }
+
+

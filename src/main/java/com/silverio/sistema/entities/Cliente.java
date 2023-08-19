@@ -2,18 +2,21 @@ package com.silverio.sistema.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-
+import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
 
 @Entity // //This class is an entity mapped to a database table;
 @Table(name = "tb_cliente")//  Name of the table in the database;
@@ -22,60 +25,82 @@ public class Cliente  implements Serializable {
 	
 	@Id //Indicates that the following field is the primary key of the entity;
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Specifies that the  primary key generation is auto;
+	@Column(name = "n_numeclien")
 	
+	private Long  id;// The primary key of the entity;
 	
-	private Long  n_codiclien;// The primary key of the entity;
-	private String c_nomeclien;// Field to store the client's name;
-    private String c_cnpjclien; // Field to store the client's CNPJ;
-    private String c_foneclien; // Field to store the client's phone number;
+	@Column(name = "c_nomeclien")
+	private String nome;// Field to store the client's name;
 	
-    //@JsonIgnore
-	//@OneToMany(mappedBy = "cliente")
-	// private List<Equipamneto> equipamentos = new ArrayList<>();
-	 
-    public Cliente() {	 // Default constructor			
+	@Column(name = "c_cnpjclien")
+    private String cnpj; // Field to store the client's CNPJ;
+	
+	@Column(name = "c_foneclien")
+	private String telefone; // Field to store the client's phone number;
+			    
+    
+    @OneToMany(mappedBy = "cliente")
+       private List<Equipamento> equipamentos=new ArrayList<>();
+   
+     	public Cliente() {	 // Default constructor			
 	}
-    
-    
-
-	public Cliente(Long n_codiclien, String c_nomeclien, String c_cnpjclien, String c_foneclien) {
+      	
+	public Cliente(Long id, String nome, String cnpj, String telefone) {
 		super();
-		this.n_codiclien = n_codiclien;
-		this.c_nomeclien = c_nomeclien;
-		this.c_cnpjclien = c_cnpjclien;
-		this.c_foneclien = c_foneclien;
-	}
+		this.id = id;
+		this.nome = nome;
+		this.cnpj = cnpj;
+		this.telefone = telefone;
 	
+		
+	}
+
 	// Getters and Setters
-	public Long getN_codiclien() {
-		return n_codiclien;
+					
+		public Long getId() {
+		return id;
 	}
-	public void setN_codiclien(Long n_codiclien) {
-		this.n_codiclien = n_codiclien;
+
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public String getC_nomeclien() {
-		return c_nomeclien;
+
+
+	public String getNome() {
+		return nome;
 	}
-	public void setC_nomeclien(String c_nomeclien) {
-		this.c_nomeclien = c_nomeclien;
+
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
-	public String getC_cnpjclien() {
-		return c_cnpjclien;
+
+
+	public String getCnpj() {
+		return cnpj;
 	}
-	public void setC_cnpjclien(String c_cnpjclien) {
-		this.c_cnpjclien = c_cnpjclien;
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
-	public String getC_foneclien() {
-		return c_foneclien;
+
+	public String getTelefone() {
+		return telefone;
 	}
-	public void setC_foneclien(String c_foneclien) {
-		this.c_foneclien = c_foneclien;
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	//lista ou coleçao adicionar somente get
+	public List<Equipamento> getEquipamentos() {
+		return equipamentos;
 	}
 	
 	// Overriding hashCode and equals methods for proper object comparison
 	@Override
 	public int hashCode() {
-		return Objects.hash(n_codiclien);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -87,8 +112,16 @@ public class Cliente  implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		return n_codiclien == other.n_codiclien;
+		if(id==null) {
+			if(other.id !=null)
+				return false;
+			
+		}else if(!id.equals(other.id))
+			return false;
+		return true;
 	}
+
+	
     
     
 }

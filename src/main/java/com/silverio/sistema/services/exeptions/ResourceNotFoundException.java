@@ -4,8 +4,12 @@ public class ResourceNotFoundException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
 	
-  public ResourceNotFoundException (Object n_codiclien) {
-	  super("Resource not found.Id"+ n_codiclien);
-	  
-  }
+ public ResourceNotFoundException (Object n_codiclien) {
+	 super("Recurso nao encontrado.Id"+ n_codiclien);
+	 
+ }
+ 
+  
+ 
+    
 }

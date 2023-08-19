@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 		
 		@ExceptionHandler(ResourceNotFoundException.class)
 		public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e,HttpServletRequest request){
-		String error ="Resource not found";
+		String error ="Objeto nao encontrado";
 		HttpStatus status= HttpStatus.NOT_FOUND;
 		StandardError err =new StandardError(Instant.now(),status.value(), error,e.getMessage(),request.getRequestURI());
 			return ResponseEntity.status(status).body(err);

@@ -9,6 +9,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.silverio.sistema.entities.Cliente;
+import com.silverio.sistema.entities.Usuario;
 import com.silverio.sistema.repository.ClienteRepository;
 import com.silverio.sistema.resources.execeptions.DatabaseException;
 import com.silverio.sistema.services.exeptions.ResourceNotFoundException;
@@ -19,32 +20,39 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository repository;
-	/**
-     * Retrieves a list of all clients.
-     *
-     * @return List of clients.
-     */
 	
+     //*    * Retrieves a list of all clients.   */
 	public List<Cliente>findAll(){
 	return repository.findAll();
 	}
-	/**
-     * Finds a client by ID.
-     *
-     * @param n_codiclien The ID of the client to find.
-     * @return The found client.
-     * @throws ResourceNotFoundException if the client is not found.
-     */
 	
-	public Cliente findById(Long n_codiclien) {
-		Optional<Cliente> Obj=repository.findById(n_codiclien);
-		return Obj.orElseThrow(() -> new ResourceNotFoundException (n_codiclien));
+	/*** Finds a client by ID.   */
+		public Cliente findById(Long id) {
+		Optional<Cliente> Obj=repository.findById(id);
+		return Obj.orElseThrow(() -> new ResourceNotFoundException (id));
 	}
 	/**
+     * Finds a client by Name.
+         */
+		//busca usuario por nome
+				// This method should find a user by name
+			    public Cliente findByNome(String nome) {
+			        Optional<Cliente> obj = repository.findByNomeIgnoreCase(nome); // Corrected parameter name
+
+			        if (obj.isPresent()) {
+			            return obj.get();
+			        } else {
+			            throw new ResourceNotFoundException("Cliente com nome " + nome + " não encontrado.");
+			        }
+			    }	
+			
+	
+	public Cliente criarCliente(Cliente cliente) {
+        return repository.save(cliente);
+    }
+	/**
      * Inserts a new client.
-     *
-     * @param obj The client to insert.
-     * @return The inserted client.
+        
      */
 	public Cliente insert(Cliente obj) {
 		return repository.save(obj);
@@ -56,12 +64,12 @@ public class ClienteService {
      * @throws ResourceNotFoundException if the client is not found.
      * @throws DatabaseException         if a database integrity violation occurs.
      */
-	public void delete (Long n_codiclien) {
+	public void delete (Long id) {
 		try {
-		repository.deleteById(n_codiclien);
+		repository.deleteById(id);
 		
 		}catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException (n_codiclien) ;		
+			throw new ResourceNotFoundException (id) ;		
 		}catch (DataIntegrityViolationException e) {
 			throw new DatabaseException (e.getMessage()) ;
 		}
@@ -74,13 +82,12 @@ public class ClienteService {
      * @return The updated client.
      * @throws ResourceNotFoundException if the client is not found.
      */
-	public Cliente update(Long n_codiclien,Cliente obj) {
-		try {
-		Cliente entity=repository.getReferenceById(n_codiclien);
+	public Cliente update(Long id,Cliente obj) {
+		try {		Cliente entity=repository.getReferenceById(id);
 		updateData(entity,obj);		
 	return repository.save(entity);
 	} catch (EntityNotFoundException e) {
-		throw new ResourceNotFoundException (n_codiclien) ;
+		throw new ResourceNotFoundException (id) ;
 	 }
 	}
 	/**
@@ -92,10 +99,15 @@ public class ClienteService {
 	
 	
 	private void updateData(Cliente entity, Cliente obj) {
-		entity.setC_nomeclien(obj.getC_nomeclien());
-		entity.setC_cnpjclien(obj.getC_cnpjclien());
-		entity.setC_foneclien(obj.getC_foneclien());
+		entity.setNome(obj.getNome());
+		entity.setCnpj(obj.getCnpj());
+		entity.setTelefone(obj.getTelefone());
 		
 		
 	}
+	public Cliente buscarClienteComEquipamentos(Long clienteId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

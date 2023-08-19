@@ -19,6 +19,10 @@ public class EquipamentoService {
 
 	@Autowired
 	private EquipamentoRepository repository;
+	public Equipamento criarEquipamento(Equipamento equipamento) {
+        return repository.save(equipamento);
+    }
+
 	/**
      * Retrieves a list of all clients.
      *
@@ -36,9 +40,16 @@ public class EquipamentoService {
      * @throws ResourceNotFoundException if the client is not found.
      */
 	
-	public Equipamento findById(Long c_codiequip) {
-		Optional<Equipamento> Obj=repository.findById(c_codiequip);
-		return Obj.orElseThrow(() -> new ResourceNotFoundException (c_codiequip));
+	public Equipamento findById(Long id) {
+		Optional<Equipamento> Obj=repository.findById(id);
+		return Obj.orElseThrow(() -> new ResourceNotFoundException (id));
+	}
+	/**
+     * Finds a client by Serie.        
+     */
+	public Equipamento findBySerie(String serie) {
+		Optional<Equipamento> Obj=repository.findBySerie(serie);
+		return Obj.orElseThrow(() -> new ResourceNotFoundException (serie));
 	}
 	/**
      * Inserts a new client.
@@ -56,12 +67,12 @@ public class EquipamentoService {
      * @throws ResourceNotFoundException if the client is not found.
      * @throws DatabaseException         if a database integrity violation occurs.
      */
-	public void delete (Long c_codiequip) {
+	public void delete (Long id) {
 		try {
-		repository.deleteById(c_codiequip);
+		repository.deleteById(id);
 		
 		}catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException (c_codiequip) ;		
+			throw new ResourceNotFoundException (id) ;		
 		}catch (DataIntegrityViolationException e) {
 			throw new DatabaseException (e.getMessage()) ;
 		}
@@ -74,13 +85,13 @@ public class EquipamentoService {
      * @return The updated client.
      * @throws ResourceNotFoundException if the client is not found.
      */
-	public Equipamento update(Long c_codiequip,Equipamento obj) {
+	public Equipamento update(Long id,Equipamento obj) {
 		try {
-		Equipamento entity=repository.getReferenceById(c_codiequip);
+		Equipamento entity=repository.getReferenceById(id);
 		updateData(entity,obj);		
 	return repository.save(entity);
 	} catch (EntityNotFoundException e) {
-		throw new ResourceNotFoundException (c_codiequip) ;
+		throw new ResourceNotFoundException (id) ;
 	 }
 	}
 	/**
@@ -92,11 +103,12 @@ public class EquipamentoService {
 	
 	
 	private void updateData(Equipamento entity, Equipamento obj) {
-		entity.setC_modelquip(obj.getC_modelquip());
-		entity.setC_seriequip(obj.getC_seriequip());
-		entity.setC_marcequip(obj.getC_marcequip());
+		entity.setModelo(obj.getModelo());
+		entity.setSerie(obj.getSerie());
+		entity.setMarca(obj.getMarca());
 		
 		
 		
 	}
+	
 }
