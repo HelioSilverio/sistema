@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Profile;
 
 import com.silverio.sistema.entities.Usuario;
 import com.silverio.sistema.entities.Cliente;
+import com.silverio.sistema.entities.Endereco;
 import com.silverio.sistema.entities.Equipamento;
 import com.silverio.sistema.repository.ClienteRepository;
+import com.silverio.sistema.repository.EnderecoRepository;
 import com.silverio.sistema.repository.EquipamentoRepository;
 import com.silverio.sistema.repository.UsuarioRepository;
 
@@ -28,6 +30,9 @@ public class TestConfig implements CommandLineRunner{
 	@Autowired
 	private EquipamentoRepository equipamentoRepository;// Injecting the ClienteRepository dependency
 	
+	@Autowired
+	private EnderecoRepository enderecoRepository;// Injecting the ClienteRepository dependency
+	
 			
 	
 	@Override
@@ -41,22 +46,29 @@ public class TestConfig implements CommandLineRunner{
 		
 		
 		// Creating instances of Cliente for tests;
-		Cliente cliente_1 = new Cliente(null, " Brown", "05388370695", "31 99051307");
-		Cliente cliente_2 = new Cliente(null, "Alex ",  "02788370695", "31 99995875"); 
-		Cliente cliente_3 = new Cliente(null, "Maria ", "0388370695", "31 99051307");
-		Cliente cliente_4 = new Cliente(null, "Alex ",  "02788370695", "31 99995875"); 
+		Cliente cliente_1 = new Cliente(null,"Brown","05388370695","31 99051307");
+		Cliente cliente_2 = new Cliente(null,"Alexo","02788370695", "31 99995875"); 
+		Cliente cliente_3 = new Cliente(null,"Maria","0388370695", "31 99051307");
+		Cliente cliente_4 = new Cliente(null,"Alex","02788370699", "31 99995875"); 
+		Cliente cliente_5 = new Cliente(null,"MARIA","02488370695", "31 99995875");
 		// Save the instances to the repository;
-		clienteRepository.saveAll(Arrays.asList(cliente_1,cliente_2,cliente_3,cliente_4));
-		
-		// Creating instances of Equipamento for tests;
-		Equipamento equip_1 = new Equipamento(null, "IpRC-700", "JPR-4747","Canon",cliente_2); 
-		Equipamento equip_2 = new Equipamento(null, "IPRc800", "JPR-6567","Canon",cliente_1); 
-		Equipamento equip_3 = new Equipamento(null, "IPRc800", "JPR-6967","Canon",cliente_2); 
-		Equipamento equip_4 = new Equipamento(null, "IPRc800", "JPR-6867","Canon",cliente_2); 
-		// Save the instances to the repository;
-		equipamentoRepository.saveAll(Arrays.asList(equip_1,equip_2,equip_3,equip_4));
-		
+		clienteRepository.saveAll(Arrays.asList(cliente_1,cliente_2,cliente_3,cliente_4,cliente_5));
 				
+		// Creating instances of Cliente for tests;
+		Equipamento equip_1 = new Equipamento(null,  "iprc700","GXCT24", "Canon",cliente_1);
+		Equipamento equip_2 = new Equipamento(null,  "iprc700", "GXCT23","Canon",cliente_2);
+		// Save the instances to the repository;
+		equipamentoRepository.saveAll(Arrays.asList(equip_1,equip_2));
+		
+		// Creating instances of Cliente for tests;		
+		Endereco end_1 = new Endereco(null,  "31365140","colonita", "224","santa terezinha","belo horizonte","Minas gerais",cliente_1);
+		Endereco end_2 = new Endereco(null,  "31365240","espanha", "424","centro","belo horizonte","Minas gerais",cliente_2);
+		//Endereco end_3 = new Endereco(null,  "31365340","canada", "824","centro","belo horizonte","Minas gerais",cliente_3);
+	//	Endereco end_4 = new Endereco(null,  "31365440","roraima", "924","centro","belo horizonte","Minas gerais",cliente_4);
+		//Endereco end_5 = new Endereco(null,  "31366440","roraima", "1024","centro","belo horizonte","Minas gerais",cliente_5);
+		// Save the instances to the repository;
+				enderecoRepository.saveAll(Arrays.asList(end_1,end_2));				
+		
 	}
 		
 	}

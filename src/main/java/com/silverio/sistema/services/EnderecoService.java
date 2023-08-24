@@ -8,59 +8,61 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.silverio.sistema.entities.Equipamento;
-import com.silverio.sistema.repository.EquipamentoRepository;
+import com.silverio.sistema.entities.Endereco;
+import com.silverio.sistema.entities.Usuario;
+import com.silverio.sistema.repository.ClienteRepository;
+import com.silverio.sistema.repository.EnderecoRepository;
 import com.silverio.sistema.resources.execeptions.DatabaseException;
 import com.silverio.sistema.services.exeptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class EquipamentoService {
+public class EnderecoService {
 
 	@Autowired
-	private EquipamentoRepository repository;
+	private EnderecoRepository repository;
 	
-	/**
-     * Retrieves a list of all clients.
-     *
-     * @return List of clients.
-     */
-	
-	public List<Equipamento> findAll(){
+     //*    * Retrieves a list of all clients.   */
+	public List<Endereco>findAll(){
 	return repository.findAll();
 	}
-	/**
-     * Finds a client by ID.
-     *
-     * @param c_codiequip The ID of the client to find.
-     * @return The found client.
-     * @throws ResourceNotFoundException if the client is not found.
-     */
 	
-	public Equipamento findById(Long id) {
-		Optional<Equipamento> Obj=repository.findById(id);
+	/*** Finds a client by ID.   */
+		public Endereco findById(Long id) {
+		Optional<Endereco> Obj=repository.findById(id);
 		return Obj.orElseThrow(() -> new ResourceNotFoundException (id));
 	}
+				
 	/**
-     * Finds a client by Serie.        
-     */
-	public Equipamento findBySerie(String serie) {
-		Optional<Equipamento> Obj=repository.findBySerie(serie);
-		return Obj.orElseThrow(() -> new ResourceNotFoundException (serie));
-	}
+     * Finds a client by Name.
+         */
+		//busca usuario por nome
+				// This method should find a user by name
+			//    public Endereco findByNome(String rua) {
+			    //    Optional<Endereco> obj = repository.findByRuaIgnoreCase(rua); // Corrected parameter name
+
+			    //    if (obj.isPresent()) {
+			       //     return obj.get();
+			     //   } else {
+			       //     throw new ResourceNotFoundException("Endereco com nome " + rua + " não encontrado.");
+			    //    }
+			//    }	
+			
+	
+	public Endereco criarCliente(Endereco cliente) {
+        return repository.save(cliente);
+    }
 	/**
      * Inserts a new client.
-     *
-     * @param obj The client to insert.
-     * @return The inserted client.
+        
      */
-	public Equipamento insert(Equipamento obj) {
+	public Endereco insert(Endereco obj) {
 		return repository.save(obj);
 	}
 	/**
      * Deletes a client by ID.
      *
-     * @param c_codiequip The ID of the client to delete.
+     * @param n_codiclien The ID of the client to delete.
      * @throws ResourceNotFoundException if the client is not found.
      * @throws DatabaseException         if a database integrity violation occurs.
      */
@@ -77,14 +79,13 @@ public class EquipamentoService {
 	/**
      * Updates a client by ID.
      *
-     * @param c_codiequip The ID of the client to update.
+     * @param n_codiclien The ID of the client to update.
      * @param obj         The updated client data.
      * @return The updated client.
      * @throws ResourceNotFoundException if the client is not found.
      */
-	public Equipamento update(Long id,Equipamento obj) {
-		try {
-		Equipamento entity=repository.getReferenceById(id);
+	public Endereco update(Long id,Endereco obj) {
+		try {		Endereco entity=repository.getReferenceById(id);
 		updateData(entity,obj);		
 	return repository.save(entity);
 	} catch (EntityNotFoundException e) {
@@ -99,26 +100,20 @@ public class EquipamentoService {
      */	
 	
 	
-	private void updateData(Equipamento entity, Equipamento obj) {
-		entity.setModelo(obj.getModelo());
-		entity.setSerie(obj.getSerie());
-		entity.setMarca(obj.getMarca());
-		//entity.setImgUrl(obj. getImgUrl());
+	private void updateData(Endereco entity, Endereco obj) {
+		entity.setCep(obj.getCep());
+		entity.setRua(obj.getRua());
+		entity.setNumero(obj.getNumero());
+		entity.setBairro(obj.getBairro());
+		entity.setCidade(obj.getCidade());
+		entity.setEstado(obj.getEstado());
+		//entity.setBairro(obj.getBairro());
 		
 		
 	}
-	//public Equipamento buscarEquipamentoComClientes(Long clienteId) {
+	
 
 	
-		//return null;
-	//}
-	//public Equipamento buscarEquipamentoComClientes1(Long clienteId) {
-		// TODO Auto-generated method stub
-	//	return null;
-	//}
-
-	//public Equipamento findById(Long id) {
-		// TODO Auto-generated method stub
-		//return null;
-	//}
+	
+	
 }

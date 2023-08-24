@@ -2,17 +2,19 @@ package com.silverio.sistema.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -39,31 +41,30 @@ public class Equipamento implements Serializable {
 	
 	 @Column(name = "c_marcequip")
 	private String marca;
-	 
-	 @Column(name = "img_url")
-	private  String imgUrl;
-	
-	 //instancia muitos para um lado equipamento;
-	 //um equipamento pode ter apenas um cliente associado
-	 @JsonIgnore
+	 	
+	 	// um equipamento pode ter apenas um cliente associado
+	@JsonIgnore
 	@ManyToOne
-    @JoinColumn(name = "cliente_id")
-	 private Cliente cliente;
-	  
+    @JoinColumn(name = "client_id")
+	 private Cliente client;
+	 		
+		
+		
 	
+	 
 	public Equipamento() {
 		super();
 	}
 
 
-	public Equipamento(Long id, String modelo, String serie, String marca, Cliente cliente) {
+	public Equipamento(Long id, String modelo, String serie, String marca, Cliente client) {
 		super();
 		this.id = id;
 		this.modelo = modelo;
 		this.serie = serie;
 		this.marca = marca;
-		//this.imgUrl = imgUrl;
-		this.cliente = cliente;
+		this.client = client;
+		
 	}
 
 	// Getters and Setters
@@ -99,12 +100,13 @@ public class Equipamento implements Serializable {
 	public void setMarca(String marca) {
 		this.marca = marca;
 	}
-
-	
-	public Cliente getCliente() {
-		return cliente;
+			
+	public Cliente getClient() {
+		return client;
 	}
-
+	public void setClient(Cliente client) {
+		this.client = client;
+	}
 	
 
 	@Override
@@ -126,6 +128,9 @@ public class Equipamento implements Serializable {
 		Equipamento other = (Equipamento) obj;
 		return Objects.equals(id, other.id);
 	}
+
+
+	
 
 }
 

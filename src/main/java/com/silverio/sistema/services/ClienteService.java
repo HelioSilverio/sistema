@@ -7,14 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.silverio.sistema.entities.Cliente;
+import com.silverio.sistema.entities.Equipamento;
 import com.silverio.sistema.entities.Usuario;
 import com.silverio.sistema.repository.ClienteRepository;
 import com.silverio.sistema.resources.execeptions.DatabaseException;
 import com.silverio.sistema.services.exeptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-
+import jakarta.transaction.Transactional;
+@Transactional
 @Service
 public class ClienteService {
 
@@ -34,23 +37,17 @@ public class ClienteService {
 	/**
      * Finds a client by Name.
          */
-		//busca usuario por nome
-				// This method should find a user by name
-			    public Cliente findByNome(String nome) {
-			        Optional<Cliente> obj = repository.findByNomeIgnoreCase(nome); // Corrected parameter name
-
-			        if (obj.isPresent()) {
-			            return obj.get();
-			        } else {
-			            throw new ResourceNotFoundException("Cliente com nome " + nome + " não encontrado.");
-			        }
-			    }	
-			
-	
-	public Cliente criarCliente(Cliente cliente) {
-        return repository.save(cliente);
-    }
-	/**
+		
+		public Cliente findByNome(String nome) {
+			Optional<Cliente> Obj=repository.findByNome(nome);
+			return Obj.orElseThrow(() -> new ResourceNotFoundException (nome));
+		}
+		
+		public Cliente findByCnpj(String cnpj) {
+			Optional<Cliente> Obj=repository.findByCnpj(cnpj);
+			return Obj.orElseThrow(() -> new ResourceNotFoundException (cnpj));
+		}
+		/**
      * Inserts a new client.
         
      */
@@ -105,9 +102,19 @@ public class ClienteService {
 		
 		
 	}
-	public Cliente buscarClienteComEquipamentos(Long clienteId) {
+	//public Cliente buscarClienteComEquipamentos(Long clienteId) {
+		// TODO Auto-generated method stub
+	///	return null;
+	//}
+	//public Cliente buscarClienteComEnderecos(Long clienteId) {
+		// TODO Auto-generated method stub
+		//return null;
+	//}
+
+	public Cliente findByTelefone(String telefone) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 }
